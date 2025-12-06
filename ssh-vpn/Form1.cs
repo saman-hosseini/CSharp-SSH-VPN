@@ -18,8 +18,12 @@ namespace ssh_vpn
         }
 
         SshClient sshClient = new SshClient("0.0.0.0", 22, "0000", "0000");
-        ForwardedPortDynamic portForwarded = new ForwardedPortDynamic(9000);
-
+        ForwardedPortLocal pfHttp = new ForwardedPortLocal("127.0.0.1", (uint)9000, "127.0.0.1", (uint)3128);
+        ForwardedPortLocal pfDockerRepository = new ForwardedPortLocal("127.0.0.1", (uint)5001, "192.168.200.10", (uint)5000);
+        ForwardedPortLocal pfCloudDB = new ForwardedPortLocal("127.0.0.1", (uint)5002, "192.168.200.250", (uint)2830);
+        ForwardedPortLocal pfPlatformDB = new ForwardedPortLocal("127.0.0.1", (uint)5003, "192.168.200.250", (uint)2831);
+        ForwardedPortLocal pfKamailioDB = new ForwardedPortLocal("127.0.0.1", (uint)5004, "192.168.200.2", (uint)22);
+        ForwardedPortLocal pfSqliteDB = new ForwardedPortLocal("127.0.0.1", (uint)5005, "192.168.200.10", (uint)22);
 
         void Connect()
         {
@@ -51,10 +55,14 @@ namespace ssh_vpn
                 try
                 {
                     sshClient.Connect();
-                    sshClient.AddForwardedPort(portForwarded);
-                    portForwarded.Start();
-
-                    set_windows_proxy();
+                    sshClient.AddForwardedPort(pfHttp);
+                    pfHttp.Start();
+                    sshClient.AddForwardedPort(pfDockerRepository);
+                    pfDockerRepository.Start();
+                    sshClient.AddForwardedPort(pfPlatformDB);
+                    pfPlatformDB.Start();
+                    sshClient.AddForwardedPort(pfKamailioDB);
+                    pfKamailioDB.Start();
 
                     Invoke((MethodInvoker)delegate
                     {
@@ -82,9 +90,11 @@ namespace ssh_vpn
         {
             btnToggle.Text = "Disconnecting...";
 
-            portForwarded.Stop();
+            pfHttp.Stop();
+            pfDockerRepository.Stop();
+            pfPlatformDB.Stop();
+            pfKamailioDB.Stop();
             sshClient.Disconnect();
-            unset_windows_proxy();
 
             btnToggle.Text = "Connect";
             lblStatus.BackColor = Color.Red;
@@ -166,23 +176,6 @@ namespace ssh_vpn
             back_status = sshClient.IsConnected;
         }
 
-        private void set_windows_proxy()
-        {
-            RegistryKey registry = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", true);
-            registry.SetValue("ProxyEnable", 1);
-            registry.SetValue("ProxyServer", "socks5://127.0.0.1:9000");
-
-            WinINetInterop.InternetSetOption(IntPtr.Zero, WinINetInterop.INTERNET_OPTION_SETTINGS_CHANGED, IntPtr.Zero, 0);
-            WinINetInterop.InternetSetOption(IntPtr.Zero, WinINetInterop.INTERNET_OPTION_REFRESH, IntPtr.Zero, 0);
-        }
-
-        private void unset_windows_proxy()
-        {
-            RegistryKey registry = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", true);
-            registry.SetValue("ProxyEnable", 0);
-            registry.SetValue("ProxyServer", "");
-        }
-
         private string registery_get_data(string name)
         {
             string keyName = "ssh_vpn";
@@ -194,19 +187,6 @@ namespace ssh_vpn
                     return key.GetValue(name) as string;
             }
         }
-
-        private void btnGh_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://github.com/omidmousavi/csharp-ssh-vpn");
-        }
     }
 
-    public static class WinINetInterop
-    {
-        public const int INTERNET_OPTION_SETTINGS_CHANGED = 39;
-        public const int INTERNET_OPTION_REFRESH = 37;
-
-        [System.Runtime.InteropServices.DllImport("wininet.dll", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto)]
-        public static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer, int lpdwBufferLength);
-    }
 }

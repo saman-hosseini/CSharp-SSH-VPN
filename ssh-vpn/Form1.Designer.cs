@@ -36,7 +36,6 @@
             this.timer_check_status = new System.Windows.Forms.Timer(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.lblStatus = new System.Windows.Forms.Label();
-            this.btnGh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnToggle
@@ -66,9 +65,9 @@
             // 
             this.btnOpenSettings.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.btnOpenSettings.Location = new System.Drawing.Point(73, 161);
+            this.btnOpenSettings.Location = new System.Drawing.Point(12, 161);
             this.btnOpenSettings.Name = "btnOpenSettings";
-            this.btnOpenSettings.Size = new System.Drawing.Size(199, 52);
+            this.btnOpenSettings.Size = new System.Drawing.Size(260, 52);
             this.btnOpenSettings.TabIndex = 1;
             this.btnOpenSettings.Text = "Open Settings";
             this.btnOpenSettings.UseVisualStyleBackColor = true;
@@ -98,21 +97,6 @@
             this.lblStatus.Text = "Not Connected";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnGh
-            // 
-            this.btnGh.BackColor = System.Drawing.SystemColors.Desktop;
-            this.btnGh.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnGh.BackgroundImage")));
-            this.btnGh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnGh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGh.FlatAppearance.BorderSize = 0;
-            this.btnGh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGh.Location = new System.Drawing.Point(12, 161);
-            this.btnGh.Name = "btnGh";
-            this.btnGh.Size = new System.Drawing.Size(55, 52);
-            this.btnGh.TabIndex = 5;
-            this.btnGh.UseVisualStyleBackColor = false;
-            this.btnGh.Click += new System.EventHandler(this.btnGh_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -120,7 +104,6 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(283, 227);
             this.Controls.Add(this.lblStatus);
-            this.Controls.Add(this.btnGh);
             this.Controls.Add(this.btnOpenSettings);
             this.Controls.Add(this.githubLink);
             this.Controls.Add(this.btnToggle);
@@ -139,7 +122,6 @@
         private System.Windows.Forms.Button btnOpenSettings;
         private System.Windows.Forms.Timer timer_check_status;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.Button btnGh;
         private System.Windows.Forms.Label lblStatus;
         public System.Windows.Forms.Button btnToggle;
     }
