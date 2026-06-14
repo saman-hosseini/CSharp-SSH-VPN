@@ -38,12 +38,15 @@
             this.btn_save = new System.Windows.Forms.Button();
             this.txt_port = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
+            this.lst_profile = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txt_profile = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txt_port)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_ip
             // 
-            this.txt_ip.Location = new System.Drawing.Point(85, 12);
+            this.txt_ip.Location = new System.Drawing.Point(85, 38);
             this.txt_ip.Name = "txt_ip";
             this.txt_ip.Size = new System.Drawing.Size(187, 20);
             this.txt_ip.TabIndex = 0;
@@ -51,7 +54,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Location = new System.Drawing.Point(12, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 1;
@@ -60,7 +63,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 68);
+            this.label2.Location = new System.Drawing.Point(12, 94);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 13);
             this.label2.TabIndex = 3;
@@ -68,7 +71,7 @@
             // 
             // txt_username
             // 
-            this.txt_username.Location = new System.Drawing.Point(85, 65);
+            this.txt_username.Location = new System.Drawing.Point(85, 91);
             this.txt_username.Name = "txt_username";
             this.txt_username.Size = new System.Drawing.Size(187, 20);
             this.txt_username.TabIndex = 2;
@@ -76,7 +79,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 94);
+            this.label3.Location = new System.Drawing.Point(12, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 13);
             this.label3.TabIndex = 5;
@@ -84,14 +87,14 @@
             // 
             // txt_password
             // 
-            this.txt_password.Location = new System.Drawing.Point(85, 91);
+            this.txt_password.Location = new System.Drawing.Point(85, 117);
             this.txt_password.Name = "txt_password";
             this.txt_password.Size = new System.Drawing.Size(187, 20);
             this.txt_password.TabIndex = 4;
             // 
             // btn_save
             // 
-            this.btn_save.Location = new System.Drawing.Point(12, 117);
+            this.btn_save.Location = new System.Drawing.Point(12, 143);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(260, 39);
             this.btn_save.TabIndex = 6;
@@ -101,7 +104,7 @@
             // 
             // txt_port
             // 
-            this.txt_port.Location = new System.Drawing.Point(85, 38);
+            this.txt_port.Location = new System.Drawing.Point(85, 64);
             this.txt_port.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -119,18 +122,46 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 42);
+            this.label4.Location = new System.Drawing.Point(12, 68);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "Server port :";
+            // 
+            // lst_profile
+            // 
+            this.lst_profile.FormattingEnabled = true;
+            this.lst_profile.Location = new System.Drawing.Point(278, 12);
+            this.lst_profile.Name = "lst_profile";
+            this.lst_profile.Size = new System.Drawing.Size(165, 147);
+            this.lst_profile.TabIndex = 10;
+            this.lst_profile.SelectedIndexChanged += new System.EventHandler(this.lst_profile_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 15);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(45, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Profile : ";
+            // 
+            // txt_profile
+            // 
+            this.txt_profile.Location = new System.Drawing.Point(85, 12);
+            this.txt_profile.Name = "txt_profile";
+            this.txt_profile.Size = new System.Drawing.Size(187, 20);
+            this.txt_profile.TabIndex = 11;
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(286, 172);
+            this.ClientSize = new System.Drawing.Size(455, 191);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txt_profile);
+            this.Controls.Add(this.lst_profile);
             this.Controls.Add(this.txt_port);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btn_save);
@@ -163,5 +194,8 @@
         private System.Windows.Forms.Button btn_save;
         private System.Windows.Forms.NumericUpDown txt_port;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ListBox lst_profile;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txt_profile;
     }
 }

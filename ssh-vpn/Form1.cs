@@ -19,22 +19,23 @@ namespace ssh_vpn
 
         SshClient sshClient = new SshClient("0.0.0.0", 22, "0000", "0000");
         ForwardedPortLocal pfHttp = new ForwardedPortLocal("127.0.0.1", (uint)9000, "127.0.0.1", (uint)3128);
-        ForwardedPortLocal pfDockerRepository = new ForwardedPortLocal("127.0.0.1", (uint)5001, "192.168.200.10", (uint)5000);
+        ForwardedPortLocal pfDockerRepository = new ForwardedPortLocal("127.0.0.1", (uint)5001, "192.168.100.51", (uint)5000);
         ForwardedPortLocal pfCloudDB = new ForwardedPortLocal("127.0.0.1", (uint)5002, "192.168.200.250", (uint)2830);
         ForwardedPortLocal pfPlatformDB = new ForwardedPortLocal("127.0.0.1", (uint)5003, "192.168.200.250", (uint)2831);
-        ForwardedPortLocal pfKamailioDB = new ForwardedPortLocal("127.0.0.1", (uint)5004, "192.168.200.2", (uint)22);
-        ForwardedPortLocal pfSqliteDB = new ForwardedPortLocal("127.0.0.1", (uint)5005, "192.168.200.10", (uint)22);
+        ForwardedPortLocal pfKamailioDB = new ForwardedPortLocal("127.0.0.1", (uint)5004, "10.10.255.253", (uint)22);
+        ForwardedPortLocal pfAstrisk = new ForwardedPortLocal("127.0.0.1", (uint)5005, "192.168.80.6", (uint)5038);
+        //ForwardedPortLocal pfMySQL = new ForwardedPortLocal("127.0.0.1", (uint)3306, "192.168.80.7", (uint)3306);
 
         void Connect()
         {
             btnToggle.Text = "Connecting...";
 
-            string password = registery_get_data("password");
-            string username = registery_get_data("username");
-            string ip = registery_get_data("ip");
+            string password = registery_get_data(Consts.RegKey.Password);
+            string username = registery_get_data(Consts.RegKey.Username);
+            string ip = registery_get_data(Consts.RegKey.IP);
             int port;
 
-            if (!int.TryParse(registery_get_data("port"), out port)) port = 22;
+            if (!int.TryParse(registery_get_data(Consts.RegKey.Port), out port)) port = 22;
 
             if (password == "" || password == "" || username == "" || ip == "")
             {
@@ -59,10 +60,16 @@ namespace ssh_vpn
                     pfHttp.Start();
                     sshClient.AddForwardedPort(pfDockerRepository);
                     pfDockerRepository.Start();
+                    sshClient.AddForwardedPort(pfCloudDB);
+                    pfCloudDB.Start();
                     sshClient.AddForwardedPort(pfPlatformDB);
                     pfPlatformDB.Start();
                     sshClient.AddForwardedPort(pfKamailioDB);
                     pfKamailioDB.Start();
+                    sshClient.AddForwardedPort(pfAstrisk);
+                    pfAstrisk.Start();
+                    //sshClient.AddForwardedPort(pfMySQL);
+                    //pfMySQL.Start();
 
                     Invoke((MethodInvoker)delegate
                     {
@@ -92,8 +99,11 @@ namespace ssh_vpn
 
             pfHttp.Stop();
             pfDockerRepository.Stop();
+            pfCloudDB.Stop();
             pfPlatformDB.Stop();
             pfKamailioDB.Stop();
+            pfAstrisk.Stop();
+            //pfMySQL.Stop();
             sshClient.Disconnect();
 
             btnToggle.Text = "Connect";
@@ -164,7 +174,7 @@ namespace ssh_vpn
                 lblStatus.Text = "Connected      00:00:00";
             }
             else if (sshClient.IsConnected)
-            { 
+            {
                 seconds++;
 
                 int hours = seconds / 3600;
@@ -178,13 +188,22 @@ namespace ssh_vpn
 
         private string registery_get_data(string name)
         {
-            string keyName = "ssh_vpn";
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(keyName))
+            using (var appKey = Registry.CurrentUser.OpenSubKey(Consts.RegKey.KeyName))
             {
-                if (key == null)
+                if (appKey == null)
+                {
                     return "";
-                else
-                    return key.GetValue(name) as string;
+                }
+                var profile = appKey.GetValue(Consts.RegKey.Profile) as string;
+                lbl_profile.Text = profile;
+                using (var profileKey = appKey.OpenSubKey(profile))
+                {
+                    if (profileKey == null)
+                    {
+                        return "";
+                    }
+                    return profileKey.GetValue(name) as string;
+                }
             }
         }
     }
