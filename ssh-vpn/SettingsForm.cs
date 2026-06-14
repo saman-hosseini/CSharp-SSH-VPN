@@ -25,6 +25,7 @@ namespace ssh_vpn
                     profileKey.SetValue(Consts.RegKey.Password, txt_password.Text);
 
                     MessageBox.Show("Successfully saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
                 }
             }
         }
