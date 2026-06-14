@@ -133,7 +133,7 @@
             this.lst_profile.FormattingEnabled = true;
             this.lst_profile.Location = new System.Drawing.Point(278, 12);
             this.lst_profile.Name = "lst_profile";
-            this.lst_profile.Size = new System.Drawing.Size(165, 147);
+            this.lst_profile.Size = new System.Drawing.Size(165, 121);
             this.lst_profile.TabIndex = 10;
             this.lst_profile.SelectedIndexChanged += new System.EventHandler(this.lst_profile_SelectedIndexChanged);
             // 
@@ -155,6 +155,7 @@
             // 
             // SettingsForm
             // 
+            this.AcceptButton = this.btn_save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -177,6 +178,7 @@
             this.Name = "SettingsForm";
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
+            this.Shown += new System.EventHandler(this.SettingsForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.txt_port)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

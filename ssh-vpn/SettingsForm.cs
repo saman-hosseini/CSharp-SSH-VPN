@@ -41,7 +41,11 @@ namespace ssh_vpn
                 var profile = appKey.GetValue(Consts.RegKey.Profile) as string;
                 txt_profile.Text = profile;
                 var profiles = appKey.GetSubKeyNames();
-                lst_profile.Items.AddRange(profiles);
+                if (profiles.Length > 0)
+                {
+                    lst_profile.Items.AddRange(profiles);
+                    lst_profile.SelectedIndex = lst_profile.Items.IndexOf(profile);
+                }
 
                 using (var profileKey = appKey.OpenSubKey(profile))
                 {
@@ -62,7 +66,7 @@ namespace ssh_vpn
 
         private void lst_profile_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(lst_profile.SelectedItem == null)
+            if (lst_profile.SelectedItem == null)
             {
                 return;
             }
@@ -90,6 +94,11 @@ namespace ssh_vpn
                     txt_password.Text = profileKey.GetValue(Consts.RegKey.Password) as string;
                 }
             }
+        }
+
+        private void SettingsForm_Shown(object sender, EventArgs e)
+        {
+            lst_profile.Focus();
         }
     }
 }
