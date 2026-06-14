@@ -32,6 +32,12 @@ namespace ssh_vpn
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
+            lst_profile.Items.Clear();
             using (var appKey = Registry.CurrentUser.OpenSubKey(Consts.RegKey.KeyName))
             {
                 if (appKey == null)
@@ -62,6 +68,8 @@ namespace ssh_vpn
                     txt_password.Text = profileKey.GetValue(Consts.RegKey.Password) as string;
                 }
             }
+
+            return;
         }
 
         private void lst_profile_SelectedIndexChanged(object sender, EventArgs e)
@@ -99,6 +107,31 @@ namespace ssh_vpn
         private void SettingsForm_Shown(object sender, EventArgs e)
         {
             lst_profile.Focus();
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            if (lst_profile.SelectedItem == null)
+            {
+                return;
+            }
+            var profile = lst_profile.SelectedItem.ToString();
+            using (var appKey = Registry.CurrentUser.OpenSubKey(Consts.RegKey.KeyName, true))
+            {
+                if (appKey == null)
+                {
+                    return;
+                }
+                var currentProfile = appKey.GetValue(Consts.RegKey.Profile) as string;
+                if (profile == currentProfile)
+                {
+                    MessageBox.Show("Active Profile can not be deleted.", "Waning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                appKey.DeleteSubKey(profile);
+            }
+
+            LoadSettings();
         }
     }
 }

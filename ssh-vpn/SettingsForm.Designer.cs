@@ -41,6 +41,7 @@
             this.lst_profile = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txt_profile = new System.Windows.Forms.TextBox();
+            this.btn_delete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.txt_port)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,7 +107,12 @@
             // 
             this.txt_port.Location = new System.Drawing.Point(85, 64);
             this.txt_port.Maximum = new decimal(new int[] {
-            1000000,
+            65535,
+            0,
+            0,
+            0});
+            this.txt_port.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -153,6 +159,16 @@
             this.txt_profile.Size = new System.Drawing.Size(187, 20);
             this.txt_profile.TabIndex = 11;
             // 
+            // btn_delete
+            // 
+            this.btn_delete.Location = new System.Drawing.Point(312, 143);
+            this.btn_delete.Name = "btn_delete";
+            this.btn_delete.Size = new System.Drawing.Size(90, 39);
+            this.btn_delete.TabIndex = 13;
+            this.btn_delete.Text = "Delete";
+            this.btn_delete.UseVisualStyleBackColor = true;
+            this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.btn_save;
@@ -160,6 +176,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(455, 191);
+            this.Controls.Add(this.btn_delete);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txt_profile);
             this.Controls.Add(this.lst_profile);
@@ -199,5 +216,6 @@
         private System.Windows.Forms.ListBox lst_profile;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txt_profile;
+        private System.Windows.Forms.Button btn_delete;
     }
 }

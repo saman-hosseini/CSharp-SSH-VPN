@@ -30,14 +30,14 @@ namespace ssh_vpn
         {
             btnToggle.Text = "Connecting...";
 
-            string password = registery_get_data(Consts.RegKey.Password);
-            string username = registery_get_data(Consts.RegKey.Username);
             string ip = registery_get_data(Consts.RegKey.IP);
+            string username = registery_get_data(Consts.RegKey.Username);
+            string password = registery_get_data(Consts.RegKey.Password);
             int port;
 
             if (!int.TryParse(registery_get_data(Consts.RegKey.Port), out port)) port = 22;
 
-            if (password == "" || password == "" || username == "" || ip == "")
+            if (ip == "" || username == "" || password == "")
             {
                 MessageBox.Show("Error : You should set SSH server settings...", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Invoke((MethodInvoker)delegate
