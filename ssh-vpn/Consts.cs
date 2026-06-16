@@ -17,6 +17,11 @@ namespace ssh_vpn
             public const string Port = "port";
             public const string Username = "username";
             public const string Password = "password";
+
+            public const string BoundHost = "boundhost";
+            public const string BoundPort = "boundport";
+            public const string RemoteHost = "remotehost";
+            public const string RemotePort = "remotehost";
         }
     }
 }

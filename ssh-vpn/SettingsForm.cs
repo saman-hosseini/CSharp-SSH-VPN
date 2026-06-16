@@ -30,46 +30,29 @@ namespace ssh_vpn
             }
         }
 
+        private void btn_forwardportsave_Click(object sender, EventArgs e)
+        {
+            using (var appKey = Registry.CurrentUser.OpenSubKey(Consts.RegKey.KeyName, true))
+            {
+                var profile = txt_profile.Text;
+                using (var profileKey = appKey.OpenSubKey(profile, true))
+                {
+                    using (var forwardportKey = profileKey.CreateSubKey(txt_forwardportname.Text, true))
+                    {
+                        profileKey.SetValue(Consts.RegKey.BoundHost, txt_boundhost.Text);
+                        profileKey.SetValue(Consts.RegKey.BoundPort, txt_boundport.Value);
+                        profileKey.SetValue(Consts.RegKey.RemoteHost, txt_remotehost.Text);
+                        profileKey.SetValue(Consts.RegKey.RemotePort, txt_remoteport.Value);
+
+                        MessageBox.Show("Successfully saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+        }
+
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             LoadSettings();
-        }
-
-        private void LoadSettings()
-        {
-            lst_profile.Items.Clear();
-            using (var appKey = Registry.CurrentUser.OpenSubKey(Consts.RegKey.KeyName))
-            {
-                if (appKey == null)
-                {
-                    return;
-                }
-                var profile = appKey.GetValue(Consts.RegKey.Profile) as string;
-                txt_profile.Text = profile;
-                var profiles = appKey.GetSubKeyNames();
-                if (profiles.Length > 0)
-                {
-                    lst_profile.Items.AddRange(profiles);
-                    lst_profile.SelectedIndex = lst_profile.Items.IndexOf(profile);
-                }
-
-                using (var profileKey = appKey.OpenSubKey(profile))
-                {
-                    int port = 22;
-
-                    txt_ip.Text = profileKey.GetValue(Consts.RegKey.IP) as string;
-
-                    if (int.TryParse(profileKey.GetValue(Consts.RegKey.Port) as string, out port))
-                    {
-                        txt_port.Value = port;
-                    }
-
-                    txt_username.Text = profileKey.GetValue(Consts.RegKey.Username) as string;
-                    txt_password.Text = profileKey.GetValue(Consts.RegKey.Password) as string;
-                }
-            }
-
-            return;
         }
 
         private void lst_profile_SelectedIndexChanged(object sender, EventArgs e)
@@ -132,6 +115,80 @@ namespace ssh_vpn
             }
 
             LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
+            lst_profile.Items.Clear();
+            using (var appKey = Registry.CurrentUser.OpenSubKey(Consts.RegKey.KeyName))
+            {
+                if (appKey == null)
+                {
+                    return;
+                }
+                var profile = appKey.GetValue(Consts.RegKey.Profile) as string;
+                txt_profile.Text = profile;
+                var profiles = appKey.GetSubKeyNames();
+                if (profiles.Length > 0)
+                {
+                    lst_profile.Items.AddRange(profiles);
+                    lst_profile.SelectedIndex = lst_profile.Items.IndexOf(profile);
+                }
+
+                using (var profileKey = appKey.OpenSubKey(profile))
+                {
+                    int port = 22;
+                    txt_ip.Text = profileKey.GetValue(Consts.RegKey.IP) as string;
+
+                    if (int.TryParse(profileKey.GetValue(Consts.RegKey.Port) as string, out port))
+                    {
+                        txt_port.Value = port;
+                    }
+
+                    txt_username.Text = profileKey.GetValue(Consts.RegKey.Username) as string;
+                    txt_password.Text = profileKey.GetValue(Consts.RegKey.Password) as string;
+
+                    var forwardPorts = profileKey.GetSubKeyNames();
+                    if (forwardPorts.Length > 0)
+                    {
+                        lst_forwardedport.Items.AddRange(forwardPorts);
+                    }
+                }
+            }
+
+            return;
+        }
+
+        private void lst_forwardedport_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lst_profile.SelectedItem == null)
+            {
+                return;
+            }
+            var profile = lst_profile.SelectedItem.ToString();
+            txt_profile.Text = profile;
+            using (var appKey = Registry.CurrentUser.OpenSubKey(Consts.RegKey.KeyName))
+            {
+                if (appKey == null)
+                {
+                    return;
+                }
+
+                using (var profileKey = appKey.OpenSubKey(profile))
+                {
+                    int port = 22;
+
+                    txt_ip.Text = profileKey.GetValue(Consts.RegKey.IP) as string;
+
+                    if (int.TryParse(profileKey.GetValue(Consts.RegKey.Port) as string, out port))
+                    {
+                        txt_port.Value = port;
+                    }
+
+                    txt_username.Text = profileKey.GetValue(Consts.RegKey.Username) as string;
+                    txt_password.Text = profileKey.GetValue(Consts.RegKey.Password) as string;
+                }
+            }
         }
     }
 }
