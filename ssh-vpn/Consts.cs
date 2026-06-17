@@ -21,7 +21,7 @@ namespace ssh_vpn
             public const string BoundHost = "boundhost";
             public const string BoundPort = "boundport";
             public const string RemoteHost = "remotehost";
-            public const string RemotePort = "remotehost";
+            public const string RemotePort = "remoteport";
         }
     }
 }

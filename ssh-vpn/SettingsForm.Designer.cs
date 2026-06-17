@@ -197,9 +197,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(180, 226);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 13);
+            this.label6.Size = new System.Drawing.Size(44, 13);
             this.label6.TabIndex = 34;
-            this.label6.Text = "Profile : ";
+            this.label6.Text = "Name : ";
             // 
             // txt_forwardportname
             // 
@@ -299,7 +299,7 @@
             this.txt_remoteport.Size = new System.Drawing.Size(187, 20);
             this.txt_remoteport.TabIndex = 35;
             this.txt_remoteport.Value = new decimal(new int[] {
-            3000,
+            1080,
             0,
             0,
             0});
